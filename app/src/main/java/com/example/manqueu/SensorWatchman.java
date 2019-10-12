@@ -7,6 +7,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
@@ -38,6 +41,17 @@ public class SensorWatchman extends Service implements SensorEventListener {
         super.onCreate();
     }
 
+    public void playNotificationSound(Context context) {
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(context, notification);
+            Log.i(TAG, "Playing notification");
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         Log.i(TAG, "onSensorChanged().");
@@ -45,18 +59,8 @@ public class SensorWatchman extends Service implements SensorEventListener {
             Log.i(TAG, "TYPE_PROXIMITY");
             if (event.values[0] < event.sensor.getMaximumRange()) {
                 Log.i(TAG, "Sensor detected something");
-//                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-//                PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
-//                        | PowerManager.ACQUIRE_CAUSES_WAKEUP, "CHESS: ");
-//                wl.acquire();
-                Log.i(TAG, "Lock Acquired");
-//                try {
-//                    Thread.sleep(30 * 1000); // 30 seconds
-//                } catch (Exception ignored) {
-//                } finally {
-//
-//                    wl.release();
-//                }
+
+                playNotificationSound(this);
             }
         }
     }
