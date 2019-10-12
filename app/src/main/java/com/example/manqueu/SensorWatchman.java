@@ -45,17 +45,18 @@ public class SensorWatchman extends Service implements SensorEventListener {
             Log.i(TAG, "TYPE_PROXIMITY");
             if (event.values[0] < event.sensor.getMaximumRange()) {
                 Log.i(TAG, "Sensor detected something");
-                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
-                        | PowerManager.ACQUIRE_CAUSES_WAKEUP, "CHESS: ");
-                wl.acquire(10*60*1000L /*10 minutes*/);
+//                PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+//                PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+//                        | PowerManager.ACQUIRE_CAUSES_WAKEUP, "CHESS: ");
+//                wl.acquire();
                 Log.i(TAG, "Lock Acquired");
-                try {
-                    Thread.sleep(30 * 1000); // 30 seconds
-                } catch (Exception ignored) {
-                } finally {
-                    wl.release();
-                }
+//                try {
+//                    Thread.sleep(30 * 1000); // 30 seconds
+//                } catch (Exception ignored) {
+//                } finally {
+//
+//                    wl.release();
+//                }
             }
         }
     }
