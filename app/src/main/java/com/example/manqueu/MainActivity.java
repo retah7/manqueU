@@ -15,12 +15,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef;
 
     String dataTitle, dataMessage;
     EditText title, message;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,25 @@ public class MainActivity extends AppCompatActivity {
                 stopService(stopServiceIntent);
             }
         });
+
+        // Handle possible data accompanying notification message.
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                if (key.equals("title")) {
+                    dataTitle=(String)getIntent().getExtras().get(key);
+                }
+                if (key.equals("message")) {
+                    dataMessage = (String)getIntent().getExtras().get(key);;
+                }
+            }
+            showAlertDialog();
+        }
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("messages");
+
+        title = (EditText) findViewById(R.id.title);
+        message = (EditText) findViewById(R.id.message);
     }
 
     private void showAlertDialog() {
@@ -76,4 +103,5 @@ public class MainActivity extends AppCompatActivity {
         myRef.push().setValue(new Message(title.getText().toString(), message.getText().toString()));
         Toast.makeText(this, "Message Sent", Toast.LENGTH_SHORT).show();
     }
+
 }
