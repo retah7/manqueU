@@ -1,4 +1,4 @@
-package com.example.manqueu;
+package com.example.manqueu.helpers;
 
 import android.content.Context;
 

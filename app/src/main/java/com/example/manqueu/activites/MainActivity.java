@@ -1,6 +1,7 @@
-package com.example.manqueu;
+package com.example.manqueu.activites;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,15 +12,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.manqueu.Message;
+import com.example.manqueu.R;
+import com.example.manqueu.services.SensorWatchmanService;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database;
@@ -34,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final Context someCtx = this;
 
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Start android service.
-                Intent startServiceIntent = new Intent(MainActivity.this, SensorWatchman.class);
+                Intent startServiceIntent = new Intent(MainActivity.this, SensorWatchmanService.class);
                 startService(startServiceIntent);
             }
         });
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Stop android service.
-                Intent stopServiceIntent = new Intent(MainActivity.this, SensorWatchman.class);
+                Intent stopServiceIntent = new Intent(MainActivity.this, SensorWatchmanService.class);
                 stopService(stopServiceIntent);
             }
         });
@@ -97,11 +97,6 @@ public class MainActivity extends AppCompatActivity {
     public void subscribeToTopic(View view) {
         FirebaseMessaging.getInstance().subscribeToTopic("notifications");
         Toast.makeText(this, "Subscribed to Topic: Notifications", Toast.LENGTH_SHORT).show();
-    }
-
-    public void sendMessage(View view) {
-        myRef.push().setValue(new Message(title.getText().toString(), message.getText().toString()));
-        Toast.makeText(this, "Message Sent", Toast.LENGTH_SHORT).show();
     }
 
 }

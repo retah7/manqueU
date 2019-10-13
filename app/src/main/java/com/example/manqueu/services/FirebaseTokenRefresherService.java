@@ -1,4 +1,4 @@
-package com.example.manqueu;
+package com.example.manqueu.services;
 
 import android.util.Log;
 
@@ -6,7 +6,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
+public class FirebaseTokenRefresherService extends FirebaseInstanceIdService {
 
     private static final String TAG = "mFirebaseIIDService";
     private static final String SUBSCRIBE_TO = "userABC";

@@ -1,4 +1,4 @@
-package com.example.manqueu;
+package com.example.manqueu.services;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,12 +15,14 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.example.manqueu.R;
+import com.example.manqueu.activites.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Random;
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+public class EventRecieverService extends FirebaseMessagingService {
 
     private final String ADMIN_CHANNEL_ID ="admin_channel";
 

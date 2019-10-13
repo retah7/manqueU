@@ -1,4 +1,4 @@
-package com.example.manqueu;
+package com.example.manqueu.services;
 
 import android.app.Service;
 import android.content.Context;
@@ -11,33 +11,23 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.example.manqueu.helpers.JsonRequestUtil;
+import com.example.manqueu.helpers.MySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class SensorWatchman extends Service implements SensorEventListener {
-    public static final String TAG = SensorWatchman.class.getName();
-
-    final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
-    final private String serverKey = "key=" + "AAAA9xGnBC8:APA91bEBEmu5aQNAyUyeMa1ZWL8IEtO_DN9evL_0XyPM-gHa8sQvFPPfrkVHToLGhHMsaU0FWlnvHkX-1P3wRw9_DP7ao0QhSkHopZIpqw1UpvTQcNKlBkLHZw7n8R55Aq70XfAEDWNU";
-    final private String contentType = "application/json";
+public class SensorWatchmanService extends Service implements SensorEventListener {
+    public static final String TAG = SensorWatchmanService.class.getName();
 
     String NOTIFICATION_TITLE;
     String NOTIFICATION_MESSAGE;
-    String TOPIC;
 
-    public SensorWatchman() {
+    public SensorWatchmanService() {
     }
 
     @Override
@@ -61,6 +51,7 @@ public class SensorWatchman extends Service implements SensorEventListener {
     }
 
     public void playNotificationSound(Context context) {
+        // This method is only for debugging purpose
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(context, notification);
@@ -106,44 +97,19 @@ public class SensorWatchman extends Service implements SensorEventListener {
 
     private void sendNotification() {
 
-        TOPIC = "/topics/userABC"; //topic has to match what the receiver subscribed to
         NOTIFICATION_TITLE = "Some Title";
         NOTIFICATION_MESSAGE = "Some message";
 
-        JSONObject notification = new JSONObject();
         JSONObject notifcationBody = new JSONObject();
         try {
             notifcationBody.put("title", NOTIFICATION_TITLE);
             notifcationBody.put("message", NOTIFICATION_MESSAGE);
-
-            notification.put("to", TOPIC);
-            notification.put("data", notifcationBody);
         } catch (JSONException e) {
             Log.e(TAG, "onCreate: " + e.getMessage() );
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.i(TAG, "onResponse: " + response.toString());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SensorWatchman.this, "Request error", Toast.LENGTH_LONG).show();
-                        Log.i(TAG, "onErrorResponse: Didn't work");
-                    }
-                }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("Authorization", serverKey);
-                params.put("Content-Type", contentType);
-                return params;
-            }
-        };
+        JsonRequest jsonObjectRequest = JsonRequestUtil.getJsonRequest(this, notifcationBody);
+
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 }
