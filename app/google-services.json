@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1061153080367",
+    "firebase_url": "https://manqueufcmid.firebaseio.com",
+    "project_id": "manqueufcmid",
+    "storage_bucket": "manqueufcmid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1061153080367:android:c5ce3134a445c2ef5f72da",
+        "android_client_info": {
+          "package_name": "com.example.manqueu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1061153080367-01botsm2kffubc6pocg66nf4nabqq8om.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMQvCtSGWxZ-i-nqBP5St-o4B_vYJlEC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1061153080367-01botsm2kffubc6pocg66nf4nabqq8om.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -27,6 +27,8 @@ public class SensorWatchmanService extends Service implements SensorEventListene
     String NOTIFICATION_TITLE;
     String NOTIFICATION_MESSAGE;
 
+    private SensorManager sensorManager = null;
+
     public SensorWatchmanService() {
     }
 
@@ -89,8 +91,16 @@ public class SensorWatchmanService extends Service implements SensorEventListene
         return super.onStartCommand(intent, flags, startId);
     }
 
+    /*
+     * Un-register this as a sensor event listener.
+     */
+    private void unregisterListener() {
+        sensorManager.unregisterListener(this);
+    }
+
     @Override
     public void onDestroy() {
+        unregisterListener();
         super.onDestroy();
         Toast.makeText(this, "Invoke background service onDestroy method.", Toast.LENGTH_LONG).show();
     }
