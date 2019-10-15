@@ -41,7 +41,7 @@ public class SensorWatchmanService extends Service implements SensorEventListene
     @Override
     public void onCreate() {
         Toast.makeText(this, "Invoke background service onCreate method.", Toast.LENGTH_LONG).show();
-        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
         if (proximitySensor == null)
